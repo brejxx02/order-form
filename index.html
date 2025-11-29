@@ -1,142 +1,263 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Order Form</title>
-
-  <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meesho Style Order Form</title>
+<style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f7f7f7;
-      padding: 20px;
+        font-family: 'Arial', sans-serif;
+        background: #ffe6f2;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
     }
-    .container {
-      max-width: 450px;
-      background: #fff;
-      margin: auto;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+
+    .container, .success-box {
+        width: 100%;
+        max-width: 420px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
     }
-    h2 { text-align: center; }
-    label { font-weight: bold; margin-top: 10px; display: block; }
+
+    h2 {
+        text-align: center;
+        color: #d63384;
+        margin-bottom: 15px;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    label {
+        font-weight: bold;
+        margin-top: 10px;
+        display: block;
+        color: #333;
+    }
+
     input, textarea, select {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        font-size: 16px;
+        background: #fafafa;
     }
-    button, .switch-btn {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      color: white;
-      font-size: 18px;
-      border-radius: 6px;
-      margin-top: 15px;
-      text-align: center;
-      display: block;
+
+    .address-row {
+        display: flex;
+        gap: 10px;
     }
-    .switch-btn { background: #0a7cff; }
-    #placeOrderBtn { display: none; background: #ff3b3b; }
-    #waitMsg {
-      display: none;
-      color: green;
-      text-align: center;
-      font-weight: bold;
-      margin-top: 15px;
-      font-size: 16px;
+
+    .btn {
+        display: block;
+        text-align: center;
+        background: linear-gradient(90deg, #ff4da6, #d63384);
+        color: #fff !important;
+        padding: 12px;
+        border-radius: 50px;
+        margin-top: 15px;
+        font-size: 18px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: 0.2s;
+        cursor: pointer;
     }
-    .address-row { display: flex; gap: 10px; }
-    .address-row input { flex: 1; }
-  </style>
 
-  <script>
-    function afterPayment() {
-      document.getElementById("payNowBtn").style.display = "none";
+    .btn:hover {
+        opacity: 0.8;
+    }
 
-      const waitMsg = document.getElementById("waitMsg");
-      waitMsg.style.display = "block";
+    #placeOrderBtn {
+        width: 100%;
+        border: none;
+    }
 
-      let seconds = 15;
-      waitMsg.innerText = `Payment verify ho raha hai, please wait ${seconds} sec...`;
+    .payment-note {
+        text-align: center;
+        font-weight: bold;
+        color: #d63384;
+        margin-top: 10px;
+        font-size: 16px;
+        animation: blink 1.2s infinite;
+    }
 
-      const countdown = setInterval(() => {
-        seconds--;
-        if (seconds > 0) {
-          waitMsg.innerText = `Payment verify ho raha hai, please wait ${seconds} sec...`;
+    @keyframes blink {
+        0% { opacity: 1; }
+        50% { opacity: 0.5; }
+        100% { opacity: 1; }
+    }
+
+    button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+    }
+
+    .info-note {
+        text-align: center;
+        font-size: 14px;
+        font-weight: bold;
+        color: #444;
+        margin-top: 10px;
+    }
+
+    .success-box {
+        text-align: center;
+        display: none; /* hidden initially */
+        animation: fadeIn 1s ease-in-out;
+    }
+    .success-box h1 {
+        color: #28a745;
+        font-size: 32px;
+        margin-bottom: 15px;
+    }
+    .success-box p {
+        font-size: 18px;
+        color: #444;
+        line-height: 1.5;
+    }
+    @keyframes fadeIn {
+        from {opacity:0;}
+        to {opacity:1;}
+    }
+
+    /* Mobile input with +91 styling */
+    .mobile-input {
+        display: flex;
+        gap: 5px;
+    }
+    .mobile-input input:first-child {
+        width: 50px;
+        text-align: center;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        background: #fafafa;
+    }
+    .mobile-input input:last-child {
+        flex: 1;
+    }
+</style>
+<script>
+let countdownInterval;
+
+function startCountdown() {
+    let countdown = 15;
+    const waitMsg = document.getElementById("waitMsg");
+    const placeOrderBtn = document.getElementById("placeOrderBtn");
+    const paymentNote = document.querySelector(".payment-note");
+
+    placeOrderBtn.disabled = true;
+    paymentNote.style.display = "none";
+    waitMsg.innerHTML = `<p style="color:#d63384;font-weight:bold;">✔ Payment clicked! Confirm your order and wait ${countdown} seconds...</p>`;
+
+    countdownInterval = setInterval(() => {
+        countdown--;
+        if(countdown > 0){
+            waitMsg.innerHTML = `<p style="color:#d63384;font-weight:bold;">✔ Confirm your order and wait ${countdown} seconds...</p>`;
         } else {
-          clearInterval(countdown);
-          waitMsg.style.display = "none";
-          document.getElementById("placeOrderBtn").style.display = "block";
+            clearInterval(countdownInterval);
+            waitMsg.innerHTML = `<p style="color:green;font-weight:bold;">✔ You can now place your order</p>`;
+            placeOrderBtn.disabled = false;
         }
-      }, 1000);
-    }
-  </script>
+    }, 1000);
+}
+
+function submitForm(event){
+    event.preventDefault(); // stop normal form submission
+
+    // send form data via FormSubmit
+    const form = document.getElementById("orderForm");
+    const action = form.getAttribute("action");
+    const formData = new FormData(form);
+
+    fetch(action, {
+        method: "POST",
+        body: formData,
+    }).then(response => {
+        // hide form & show success
+        document.querySelector(".container").style.display = "none";
+        document.querySelector(".success-box").style.display = "block";
+    }).catch(error => {
+        alert("There was an error sending your order. Please try again.");
+        console.error(error);
+    });
+}
+</script>
 </head>
-
 <body>
-  <div class="container">
-    <h2>Order Form</h2>
 
-    <form action="https://formsubmit.co/brajeshkhant855@gmail.com" method="POST">
+<div class="container">
+<h2>Order Form</h2>
+<form id="orderForm" action="https://formsubmit.co/brajeshkhant855@gmail.com" method="POST" onsubmit="submitForm(event)">
+    <!-- Hidden fields for FormSubmit -->
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_template" value="table">
 
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_template" value="table">
-      <input type="hidden" name="_subject" value="New Product Order Received">
+    <label>Your Name</label>
+    <input type="text" name="Customer Name" required>
 
-      <label>Your Name</label>
-      <input type="text" name="Customer Name" required>
+    <label>Mobile Number</label>
+    <div class="mobile-input">
+        <input type="text" value="+91" readonly>
+        <input type="number" name="Mobile" placeholder="Enter mobile number" required>
+    </div>
 
-      <label>Mobile Number</label>
-      <input type="number" name="Mobile" required>
+    <label>Street / Building / Locality</label>
+    <textarea name="Address" rows="2" required></textarea>
 
-      <!-- Structured Address -->
-      <label>Street / Building / Locality</label>
-      <textarea name="Address" rows="2" placeholder="Street, Building, Locality" required></textarea>
+    <label>Nearby Landmark</label>
+    <input type="text" name="Landmark" required>
 
-      <label>Nearby Landmark / Road / Shop Name</label>
-      <input type="text" name="Landmark" placeholder="Near XYZ Road / Shop Name" required>
-
-      <div class="address-row">
+    <div class="address-row">
         <input type="text" name="City" placeholder="City" required>
         <input type="text" name="State" placeholder="State" required>
-      </div>
+    </div>
 
-      <input type="number" name="Pin Code" placeholder="Pin Code" required style="margin-top:10px;">
+    <input type="number" name="Pin Code" placeholder="Pin Code" required>
 
-      <label>Product Name</label>
-      <input type="text" name="Product Name" value="Premium Watch" required>
+    <label>Product Name</label>
+    <input type="text" name="Product Name" value="Premium Watch" required>
 
-      <label>Quantity</label>
-      <input type="number" name="Quantity" value="1" required>
+    <label>Quantity</label>
+    <input type="number" name="Quantity" value="1" required>
 
-      <label>Payment Method</label>
-      <select name="Payment Method" required>
+    <label>Payment Method</label>
+    <select name="Payment Method" required>
         <option>UPI Pay at Home (Direct Payment)</option>
-      </select>
+    </select>
 
-      <label>Send Payment to This UPI ID</label>
-      <input type="text" value="brexx@ptyes" readonly>
+    <label>Send Payment to This UPI ID</label>
+    <input type="text" value="brexx@ptyes" readonly>
 
-      <label>UTR Number (Payment Reference)</label>
-      <input type="text" name="UTR Number" placeholder="Enter UTR After Payment" required>
+    <div class="info-note">
+        Please complete the payment first. You can place your order after the payment is confirmed.
+    </div>
 
-      <!-- PAY NOW BUTTON -->
-      <a id="payNowBtn"
-         class="switch-btn"
-         href="upi://pay?pa=brexx@ptyes&pn=Brajesh&am=78&cu=INR"
-         onclick="afterPayment()">
-        Pay ₹78 Now
-      </a>
+    <div class="payment-note">
+        Click Pay Button & Confirm Payment <br> ↓
+    </div>
 
-      <div id="waitMsg"></div>
+    <a id="payNowBtn" class="btn"
+       href="upi://pay?pa=brexx@ptyes&pn=Brajesh&am=78&cu=INR"
+       onclick="startCountdown()">
+       Pay ₹78 Now
+    </a>
 
-      <button id="placeOrderBtn" type="submit">Place Order</button>
+    <div id="waitMsg"></div>
 
-    </form>
-  </div>
+    <button id="placeOrderBtn" class="btn" type="submit" disabled>Place Order</button>
+</form>
+</div>
+
+<div class="success-box">
+    <h1>✔ Your order was successful!</h1>
+    <p>Thank you for shopping with us.<br>
+       Your order will be delivered within 1-3 days.<br>
+       Stay tuned! 🚚</p>
+</div>
+
 </body>
 </html>
