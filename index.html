@@ -19,14 +19,8 @@
       border-radius: 10px;
       box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
     }
-    h2 {
-      text-align: center;
-    }
-    label {
-      font-weight: bold;
-      margin-top: 10px;
-      display: block;
-    }
+    h2 { text-align: center; }
+    label { font-weight: bold; margin-top: 10px; display: block; }
     input, textarea, select {
       width: 100%;
       padding: 10px;
@@ -34,17 +28,53 @@
       border: 1px solid #ccc;
       border-radius: 6px;
     }
-    button {
+    button, .switch-btn {
       width: 100%;
       padding: 12px;
-      background: #ff3b3b;
       border: none;
       color: white;
       font-size: 18px;
       border-radius: 6px;
       margin-top: 15px;
+      text-align: center;
+      display: block;
     }
+    .switch-btn { background: #0a7cff; }
+    #placeOrderBtn { display: none; background: #ff3b3b; }
+    #waitMsg {
+      display: none;
+      color: green;
+      text-align: center;
+      font-weight: bold;
+      margin-top: 15px;
+      font-size: 16px;
+    }
+    .address-row { display: flex; gap: 10px; }
+    .address-row input { flex: 1; }
   </style>
+
+  <script>
+    function afterPayment() {
+      document.getElementById("payNowBtn").style.display = "none";
+
+      const waitMsg = document.getElementById("waitMsg");
+      waitMsg.style.display = "block";
+
+      let seconds = 15;
+      waitMsg.innerText = `Payment verify ho raha hai, please wait ${seconds} sec...`;
+
+      const countdown = setInterval(() => {
+        seconds--;
+        if (seconds > 0) {
+          waitMsg.innerText = `Payment verify ho raha hai, please wait ${seconds} sec...`;
+        } else {
+          clearInterval(countdown);
+          waitMsg.style.display = "none";
+          document.getElementById("placeOrderBtn").style.display = "block";
+        }
+      }, 1000);
+    }
+  </script>
 </head>
 
 <body>
@@ -53,7 +83,6 @@
 
     <form action="https://formsubmit.co/brajeshkhant855@gmail.com" method="POST">
 
-      <!-- REQUIRED -->
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="_template" value="table">
       <input type="hidden" name="_subject" value="New Product Order Received">
@@ -64,11 +93,22 @@
       <label>Mobile Number</label>
       <input type="number" name="Mobile" required>
 
-      <label>Full Address</label>
-      <textarea name="Address" rows="3" required></textarea>
+      <!-- Structured Address -->
+      <label>Street / Building / Locality</label>
+      <textarea name="Address" rows="2" placeholder="Street, Building, Locality" required></textarea>
+
+      <label>Nearby Landmark / Road / Shop Name</label>
+      <input type="text" name="Landmark" placeholder="Near XYZ Road / Shop Name" required>
+
+      <div class="address-row">
+        <input type="text" name="City" placeholder="City" required>
+        <input type="text" name="State" placeholder="State" required>
+      </div>
+
+      <input type="number" name="Pin Code" placeholder="Pin Code" required style="margin-top:10px;">
 
       <label>Product Name</label>
-      <input type="text" name="Product Name" required>
+      <input type="text" name="Product Name" value="Premium Watch" required>
 
       <label>Quantity</label>
       <input type="number" name="Quantity" value="1" required>
@@ -79,12 +119,23 @@
       </select>
 
       <label>Send Payment to This UPI ID</label>
-      <input type="text" name="Your UPI ID" value="2042007@axl" readonly>
+      <input type="text" value="brexx@ptyes" readonly>
 
-      <label>Customer UPI ID (Payment Screenshot)</label>
-      <input type="text" name="Customer UPI ID">
+      <label>UTR Number (Payment Reference)</label>
+      <input type="text" name="UTR Number" placeholder="Enter UTR After Payment" required>
 
-      <button type="submit">Place Order</button>
+      <!-- PAY NOW BUTTON -->
+      <a id="payNowBtn"
+         class="switch-btn"
+         href="upi://pay?pa=brexx@ptyes&pn=Brajesh&am=78&cu=INR"
+         onclick="afterPayment()">
+        Pay ₹78 Now
+      </a>
+
+      <div id="waitMsg"></div>
+
+      <button id="placeOrderBtn" type="submit">Place Order</button>
+
     </form>
   </div>
 </body>
