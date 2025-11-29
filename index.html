@@ -53,7 +53,7 @@
 
     <form action="https://formsubmit.co/brajeshkhant855@gmail.com" method="POST">
 
-      <!-- REQUIRED FOR FORM SUBMIT -->
+      <!-- REQUIRED -->
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="_template" value="table">
       <input type="hidden" name="_subject" value="New Product Order Received">
@@ -75,12 +75,14 @@
 
       <label>Payment Method</label>
       <select name="Payment Method" required>
-        <option>COD (Cash on Delivery)</option>
-        <option>UPI Payment</option>
+        <option>UPI Pay at Home (Direct Payment)</option>
       </select>
 
-      <label>UPI ID (If prepaid)</label>
-      <input type="text" name="UPI ID">
+      <label>Send Payment to This UPI ID</label>
+      <input type="text" name="Your UPI ID" value="2042007@axl" readonly>
+
+      <label>Customer UPI ID (Payment Screenshot)</label>
+      <input type="text" name="Customer UPI ID">
 
       <button type="submit">Place Order</button>
     </form>
