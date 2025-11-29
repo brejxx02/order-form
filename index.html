@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Form</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 500px; margin: auto; }
+    label { font-weight: bold; margin-top: 10px; display: block; }
+    input, select { width: 100%; padding: 10px; margin: 8px 0; }
+    button { padding: 12px; width: 100%; background: purple; color: #fff; border: none; font-size: 16px; cursor: pointer; }
+    button:hover { opacity: 0.9; }
+    .section { margin-bottom: 25px; }
+    #orderNumberSection { display: none; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h2 style="text-align:center;">Product Order Form (Meesho Style)</h2>
+
+  <form id="orderForm" onsubmit="return submitOrder(event)">
+    <div class="section">
+      <label>Customer Name</label>
+      <input type="text" required />
+
+      <label>Mobile Number</label>
+      <input type="number" required />
+
+      <label>House Number / Street</label>
+      <input type="text" id="house" required />
+
+      <label>City / State</label>
+      <input type="text" id="cityState" required />
+
+      <label>Pin Code</label>
+      <input type="number" id="pincode" required />
+
+      <label>Area / Colony / Road Name</label>
+      <input type="text" id="area" required />
+
+      <label>Product Name</label>
+      <input type="text" value="Premium Watch" readonly />
+
+      <label>Product Size</label>
+      <select required>
+        <option value="">Select Size</option>
+        <option>S</option>
+        <option>M</option>
+        <option>L</option>
+        <option>XL</option>
+        <option>XXL</option>
+      </select>
+
+      <label>Quantity</label>
+      <input type="number" id="quantity" min="1" value="1" required />
+
+      <label>Total Amount</label>
+      <input type="number" id="totalAmount" value="50" readonly />
+    </div>
+
+    <h3>Payment Options</h3>
+    <div class="section" id="paymentButtons">
+      <button type="button" onclick="payUPI('gpay')">Pay via GPay</button>
+      <button type="button" onclick="payUPI('phonepe')">Pay via PhonePe</button>
+    </div>
+
+    <!-- Order Number Section -->
+    <div id="orderNumberSection">
+      <label>Enter Your Order Number</label>
+      <input type="text" id="orderNumber" required />
+      <button type="submit">Submit Order</button>
+    </div>
+
+    <div id="message" style="margin-top:15px; font-weight:bold; color:green;"></div>
+  </form>
+
+  <script>
+    const upiID = "2042007@axl";
+    const pricePerUnit = 50;
+
+    const quantityInput = document.getElementById('quantity');
+    const totalAmountInput = document.getElementById('totalAmount');
+
+    // Update total amount when quantity changes
+    quantityInput.addEventListener('input', () => {
+      const qty = parseInt(quantityInput.value) || 1;
+      totalAmountInput.value = qty * pricePerUnit;
+    });
+
+    function payUPI(app){
+      const amount = totalAmountInput.value;
+      let url = `upi://pay?pa=${upiID}&pn=Shop&am=${amount}&cu=INR`;
+      window.location.href = url;
+
+      setTimeout(() => {
+        document.getElementById('paymentButtons').style.display = 'none';
+        document.getElementById('orderNumberSection').style.display = 'block';
+      }, 1000);
+    }
+
+    function submitOrder(event){
+      event.preventDefault();
+      const orderNum = document.getElementById('orderNumber').value.trim();
+      if(orderNum === ""){
+        alert("Please enter your order number");
+        return false;
+      }
+      document.getElementById('message').innerText = "Your order has been submitted";
+      document.getElementById('orderForm').reset();
+      return false;
+    }
+  </script>
+</body>
+</html>
