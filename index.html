@@ -3,146 +3,144 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meesho Style Order Form</title>
+<title>Order Form</title>
 <style>
-    body {
-        font-family: 'Arial', sans-serif;
-        background: #ffe6f2;
-        padding: 20px;
-        display: flex;
-        justify-content: center;
-    }
-
-    .container, .success-box {
-        width: 100%;
-        max-width: 420px;
-        background: #fff;
-        padding: 20px;
-        border-radius: 20px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-
-    h2 {
-        text-align: center;
-        color: #d63384;
-        margin-bottom: 15px;
-        font-size: 24px;
-        font-weight: bold;
-    }
-
-    label {
-        font-weight: bold;
-        margin-top: 10px;
-        display: block;
-        color: #333;
-    }
-
-    input, textarea, select {
-        width: 100%;
-        padding: 10px;
-        margin-top: 5px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        font-size: 16px;
-        background: #fafafa;
-    }
-
-    .address-row {
-        display: flex;
-        gap: 10px;
-    }
-
-    .btn {
-        display: block;
-        text-align: center;
-        background: linear-gradient(90deg, #ff4da6, #d63384);
-        color: #fff !important;
-        padding: 12px;
-        border-radius: 50px;
-        margin-top: 15px;
-        font-size: 18px;
-        font-weight: bold;
-        text-decoration: none;
-        transition: 0.2s;
-        cursor: pointer;
-    }
-
-    .btn:hover {
-        opacity: 0.8;
-    }
-
-    #placeOrderBtn {
-        width: 100%;
-        border: none;
-    }
-
-    .payment-note {
-        text-align: center;
-        font-weight: bold;
-        color: #d63384;
-        margin-top: 10px;
-        font-size: 16px;
-        animation: blink 1.2s infinite;
-    }
-
-    @keyframes blink {
-        0% { opacity: 1; }
-        50% { opacity: 0.5; }
-        100% { opacity: 1; }
-    }
-
-    button:disabled {
-        background: #ccc;
-        cursor: not-allowed;
-    }
-
-    .info-note {
-        text-align: center;
-        font-size: 14px;
-        font-weight: bold;
-        color: #444;
-        margin-top: 10px;
-    }
-
-    .success-box {
-        text-align: center;
-        display: none; /* hidden initially */
-        animation: fadeIn 1s ease-in-out;
-    }
-    .success-box h1 {
-        color: #28a745;
-        font-size: 32px;
-        margin-bottom: 15px;
-    }
-    .success-box p {
-        font-size: 18px;
-        color: #444;
-        line-height: 1.5;
-    }
-    @keyframes fadeIn {
-        from {opacity:0;}
-        to {opacity:1;}
-    }
-
-    /* Mobile input with +91 styling */
-    .mobile-input {
-        display: flex;
-        gap: 5px;
-    }
-    .mobile-input input:first-child {
-        width: 50px;
-        text-align: center;
-        border-radius: 10px;
-        border: 1px solid #ccc;
-        background: #fafafa;
-    }
-    .mobile-input input:last-child {
-        flex: 1;
-    }
+body {
+    font-family: 'Arial', sans-serif;
+    background: #ffe6f2;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+.container, .success-box {
+    width: 100%;
+    max-width: 420px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+h2 {
+    text-align: center;
+    color: #d63384;
+    margin-bottom: 15px;
+    font-size: 24px;
+    font-weight: bold;
+}
+label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+    color: #333;
+}
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    background: #fafafa;
+}
+.address-row {
+    display: flex;
+    gap: 10px;
+}
+.btn {
+    display: block;
+    text-align: center;
+    background: linear-gradient(90deg, #ff4da6, #d63384);
+    color: #fff !important;
+    padding: 12px;
+    border-radius: 50px;
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.2s;
+    cursor: pointer;
+}
+.btn:hover {
+    opacity: 0.8;
+}
+#placeOrderBtn {
+    width: 100%;
+    border: none;
+}
+.payment-note {
+    text-align: center;
+    font-weight: bold;
+    color: #d63384;
+    margin-top: 10px;
+    font-size: 16px;
+    animation: blink 1.2s infinite;
+}
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+.info-note {
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #444;
+    margin-top: 10px;
+}
+.success-box {
+    text-align: center;
+    display: none;
+    animation: fadeIn 1s ease-in-out;
+}
+.success-box h1 {
+    color: #28a745;
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+.success-box p {
+    font-size: 18px;
+    color: #444;
+    line-height: 1.5;
+}
+@keyframes fadeIn {
+    from {opacity:0;}
+    to {opacity:1;}
+}
+.mobile-input {
+    display: flex;
+    gap: 5px;
+}
+.mobile-input input:first-child {
+    width: 50px;
+    text-align: center;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background: #fafafa;
+}
+.mobile-input input:last-child {
+    flex: 1;
+}
 </style>
 <script>
 let countdownInterval;
+const unitPrice = 78; // unit price
 
+function updatePrice(){
+    const quantityInput = document.querySelector('input[name="Quantity"]');
+    const quantity = parseInt(quantityInput.value) || 1;
+    const total = unitPrice * quantity;
+
+    // Update Pay Now button
+    const payBtn = document.getElementById("payNowBtn");
+    payBtn.textContent = `Pay ₹${total} Now`;
+    payBtn.href = `upi://pay?pa=brexx@ptyes&cu=INR&am=${total}`;
+}
+
+// Countdown for payment
 function startCountdown() {
     let countdown = 15;
     const waitMsg = document.getElementById("waitMsg");
@@ -151,6 +149,9 @@ function startCountdown() {
 
     placeOrderBtn.disabled = true;
     paymentNote.style.display = "none";
+
+    updatePrice(); // ensure price is up to date
+
     waitMsg.innerHTML = `<p style="color:#d63384;font-weight:bold;">✔ Payment clicked! Confirm your order and wait ${countdown} seconds...</p>`;
 
     countdownInterval = setInterval(() => {
@@ -165,10 +166,10 @@ function startCountdown() {
     }, 1000);
 }
 
+// Submit form
 function submitForm(event){
-    event.preventDefault(); // stop normal form submission
+    event.preventDefault();
 
-    // send form data via FormSubmit
     const form = document.getElementById("orderForm");
     const action = form.getAttribute("action");
     const formData = new FormData(form);
@@ -177,7 +178,6 @@ function submitForm(event){
         method: "POST",
         body: formData,
     }).then(response => {
-        // hide form & show success
         document.querySelector(".container").style.display = "none";
         document.querySelector(".success-box").style.display = "block";
     }).catch(error => {
@@ -185,14 +185,16 @@ function submitForm(event){
         console.error(error);
     });
 }
+
+window.addEventListener("DOMContentLoaded", updatePrice);
 </script>
 </head>
 <body>
 
 <div class="container">
 <h2>Order Form</h2>
+
 <form id="orderForm" action="https://formsubmit.co/brajeshkhant855@gmail.com" method="POST" onsubmit="submitForm(event)">
-    <!-- Hidden fields for FormSubmit -->
     <input type="hidden" name="_captcha" value="false">
     <input type="hidden" name="_template" value="table">
 
@@ -222,7 +224,7 @@ function submitForm(event){
     <input type="text" name="Product Name" value="Premium Watch" required>
 
     <label>Quantity</label>
-    <input type="number" name="Quantity" value="1" required>
+    <input type="number" name="Quantity" value="1" min="1" required oninput="updatePrice()">
 
     <label>Payment Method</label>
     <select name="Payment Method" required>
@@ -240,9 +242,7 @@ function submitForm(event){
         Click Pay Button & Confirm Payment <br> ↓
     </div>
 
-    <a id="payNowBtn" class="btn"
-       href="upi://pay?pa=brexx@ptyes&pn=Brajesh&am=78&cu=INR"
-       onclick="startCountdown()">
+    <a id="payNowBtn" class="btn" href="#" onclick="startCountdown()">
        Pay ₹78 Now
     </a>
 
